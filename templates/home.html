@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        /* Your existing styles */
+        body {
+            background-color: rgb(255, 255, 255);
+            color: white;
+            font-family: "Times New Roman", Times, serif;
+            text-align: center;
+        }
+
+        h1 {
+            color: red;
+        }
+
+        input[type="number"] {
+            width: 200px;
+            margin: 5px;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .password {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .input {
+            width: 100%;
+            max-width: 220px;
+            height: 35px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1.5px solid lightgrey;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            box-shadow: 0px 0px 20px -18px;
+        }
+
+        .input:hover {
+            border: 2px solid lightgrey;
+            box-shadow: 0px 0px 20px -17px;
+        }
+
+        .input:active {
+            transform: scale(0.95);
+        }
+
+        .input:focus {
+            border: 2px solid grey;
+        }
+
+        .copy-button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .copy-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <form method="POST">
+        <input type="number" class="input" name="minLength" placeholder="Minimum Length of Password" value="{{ request.form['minLength'] }}" required><br>
+        <input type="number" class="input" name="smallLetters" placeholder="Number of Small Letters" value="{{ request.form['smallLetters'] }}" required><br>
+        <input type="number" class="input" name="capitals" placeholder="Number of Capital Letters" value="{{ request.form['capitals'] }}" required><br>
+        <input type="number" class="input" name="specialChars" placeholder="Number of Special Characters" value="{{ request.form['specialChars'] }}" required><br>
+        <input type="number" class="input" name="numbers" placeholder="Number of Numbers" value="{{ request.form['numbers'] }}" required><br>
+        <button type="submit" class="button">Generate Password</button>
+    </form>
+
+    {% if password %}
+    <div class="password">
+        Generated Password: <span id="generatedPassword">{{ password }}</span>
+        <button class="copy-button" onclick="copyPassword()">Copy</button>
+    </div>
+    {% endif %}
+
+    <script>
+        function copyPassword() {
+            var passwordText = document.getElementById("generatedPassword").innerText;
+            navigator.clipboard.writeText(passwordText).then(function() {
+                alert("Password copied to clipboard!");
+            }, function(err) {
+                alert("Failed to copy the password!");
+            });
+        }
+    </script>
+</body>
+</html>
